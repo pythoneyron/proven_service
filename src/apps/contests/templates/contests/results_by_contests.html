@@ -1,0 +1,65 @@
+{% extends 'contests/final_results.html' %}
+{% load contests_filter %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="breadcrumb-item"><a href="{% url 'contests:final_results_teams' contest_id=contest.id %}">{{ contest.title }}</a></li>
+{% endblock %}
+
+{% block content %}
+    <section class="container form_block">
+        <h3 class="head_input">Итоговые результаты</h3>
+
+        <div class="table-responsive table_block_origin">
+            <table class="table table-sm table-bordered">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">
+                        <div class="num_tab">№</div>
+                    </th>
+                    <th scope="col">Команда/Вуз</th>
+                    <th colspan="{{ criteria|length }}" class="criterion_glob">
+                        <table>
+                            <tr>
+                                <th colspan="{{ criteria|length }}" class="header_th">Критерии</th>
+                            </tr>
+                            <tr id="kriterii">
+                                {% for crit in criteria %}
+                                    <th scope="col">{{ crit.title }}</th>
+                                {% endfor %}
+                            </tr>
+                        </table>
+                    </th>
+                    <th>Штрафные баллы</th>
+                    <th>Итоговый балл(по среднему значению)</th>
+                    <th>Итоговый балл(с учетом штрафа)</th>
+                    <th>Место</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for team in teams %}
+                    <tr>
+                        <th scope="row" class="bg_transparent">{{ forloop.counter }}</th>
+                        <td><a href="#" class="link_vuz">{{ team.title }}</a></td>
+                        {% for crit in criteria %}
+                            <td>{{ team|get_average_value_by_criteria:crit }}</td>
+                        {% endfor %}
+                        <td>{{ team|get_total_penalty:contest }}</td>
+                        <td>{{ team|get_total_score_all_average_criteria:contest }}</td>
+                        <td>{{ team|get_total_score_all_average_criteria_with_penalty:contest }}</td>
+                        <td>{{ team.placetaken_set.all|get_place:contest }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <form method="GET" action="{% url 'contests:render_to_pdf' contest.id %}">
+                <div class="wrap_btn_res">
+                    <button type="submit" class="btn btn-input">Отправить в PDF</button>
+                </div>
+            </form>
+            <div class="wrap_btn_res">
+                <a href="{% url 'contests:history_changes' contest.id %}" class="button">История изменений</a>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

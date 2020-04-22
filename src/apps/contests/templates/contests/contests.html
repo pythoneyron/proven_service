@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="breadcrumb-item"><a href="{% url 'contests:contests' %}">Конкурсы</a></li>
+{% endblock %}
+
+{% block content %}
+    <section class="container form_block">
+        {% if contests %}
+        <h3 class="head_input">Список конкурсов</h3>
+        <div class="table-responsive">
+            <table class="table point">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">№</th>
+                    <th scope="col">Название конкурса</th>
+                    <th scope="col">Дата начала</th>
+                    <th scope="col">Дата окончания</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for contest in contests %}
+                    <tr>
+                        <td width="30px">{{ forloop.counter }}</td>
+                        <td width="350"><a href="{% url 'contests:teams' contest.pk %}" class="link_command">{{ contest.title }}</a></td>
+                        <td>{{ contest.get_start_date_to_string }}</td>
+                        <td>{{ contest.get_end_date_to_string }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <h3 class="head_input">Список конкурсов пуст</h3>
+        {% endif %}
+    </section>
+{% endblock content %}

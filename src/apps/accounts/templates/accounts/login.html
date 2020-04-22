@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="breadcrumb-item"><a href="{% url 'accounts:my_data'  %}">Мои данные</a></li>
+{% endblock %}
+
+{% block content %}
+    <!--
+    Классы для инпутов формы
+    is-invalid
+    is-valid
+
+    Рядом с кнопкой "Готово" есть div для указания успешной валидации
+    -->
+
+    <section class="container form_block">
+        <h3 class="head_input first_page">Введите ваши данные</h3>
+        <form action="{% url 'accounts:login' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Номер телефона: </label>
+                {{ form.phone_number }}
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Пароль: </label>
+                {{ form.password }}
+            </div>
+            <div class="wrap_btn_res">
+                <button type="submit" class="btn btn-input">Готово</button>
+{#                <div class="res green"><span class="check_green"></span>Успешно</div>#}
+            </div>
+        </form>
+    </section>
+{% endblock content %}

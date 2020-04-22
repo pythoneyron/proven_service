@@ -1,0 +1,65 @@
+{% extends 'contests/results_by_contests.html' %}
+{% load contests_filter %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="breadcrumb-item"><a href="{% url 'contests:history_changes' contest_id=contest.id %}">История изменений оценок</a></li>
+{% endblock %}
+
+{% block content %}
+    <section class="container form_block">
+        <h3 class="head_input">Список изменений оценок</h3>
+        <div class="table-responsive">
+            <table class="table point">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">№</th>
+                    <th scope="col">Эксперт</th>
+                    {% for team in teams %}
+                        <th scope="col">
+                            Команда: {{ team.title }} <br>
+                            Штрафной балл: {{ team|get_total_penalty:contest }} <br>
+                        </th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td width="30px">{{ forloop.counter }}</td>
+                        <td>{{ user.get_full_name }}</td>
+                        {% for team in teams %}
+                            <td>
+                                {% for assessment_history in assessments_history|filter_queryset_by_user:user|filter_queryset_by_team:team %}
+                                    {{ assessment_history.criteria.title }} ({{ assessment_history.criteria.coefficient }}) - {{ assessment_history.point }} <br>
+                                    {% if assessment_history.criteria|get_max_deleted_user:team == user and assessment_history.point == assessment_history.criteria|get_max_deleted_value:team %}
+                                        <b>Удален как максимальный</b> <br>
+                                    {% endif %}
+                                    {% if assessment_history.criteria|get_min_deleted_user:team == user and assessment_history.point == assessment_history.criteria|get_min_deleted_value:team %}
+                                        <b>Удален как минимальный</b> <br>
+                                    {% endif %}
+                                    <br>
+                                {% endfor %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        {% for team in teams %}
+                        <td>
+                            Место: {{ team.placetaken_set.all|get_place:contest }} <br>
+                            <b>Общий балл:</b> {{ team|get_total_all_values:contest }} <br>
+                            Средний балл: {{ team|get_total_score_all_average_criteria_without_del_min_max_and_not_coefficient:contest }}<br>
+                            Средний балл с коэф: {{ team|get_total_score_all_average_criteria_without_del_min_max:contest }}<br>
+                            Средний балл с коэф. и вычетом max и min: {{ team|get_total_score_all_average_criteria:contest }} <br>
+                            <b>Итоговый балл:</b> {{ team|get_total_score_all_average_criteria_with_penalty:contest }} <br>
+                        </td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock content %}

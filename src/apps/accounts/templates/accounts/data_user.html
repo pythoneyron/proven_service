@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="breadcrumb-item"><a href="{% url 'accounts:my_data'  %}">Мои данные</a></li>
+{% endblock %}
+
+{% block content %}
+    <!--
+    Классы для инпутов формы
+    is-invalid
+    is-valid
+
+    Рядом с кнопкой "Готово" есть div для указания успешной валидации
+    -->
+    <section class="container form_block">
+        <h3 class="head_input first_page">Ваши данные</h3>
+        <form action="{% url 'accounts:my_data' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="col-sm-2 control-label">E-mail: </label>
+                {% if user.email %} {{ user.email }} {% endif %}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.first_name.auto_id }}" class="col-sm-2 control-label">Имя: </label>
+                {{ form.first_name }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.last_name.auto_id }}" class="col-sm-2 control-label">Фамилия: </label>
+                {{ form.last_name }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.middle_name.auto_id }}" class="col-sm-2 control-label">Отчество: </label>
+                {{ form.middle_name }}
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Номер телефона: </label>
+                {{ user.phone_number }}
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Роль: </label>
+                {{ user.get_role_display }}
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Дата регистрации: </label>
+                {{ user.registration_date|date:'Y-m-d' }}
+            </div>
+            <div class="wrap_btn_res">
+                <button type="submit" class="btn btn-input">Готово</button>
+{#                <div class="res green"><span class="check_green"></span>Успешно</div>#}
+            </div>
+        </form>
+    </section>
+{% endblock content %}

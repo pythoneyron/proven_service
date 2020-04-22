@@ -1,0 +1,65 @@
+{% extends 'contests/team.html' %}
+{% load static %}
+{% load contests_filter %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="breadcrumb-item"><a href="{% url 'contests:results_team' contest_id=contest.id team_id=team.id  %}">{{ team.title }}</a></li>
+{% endblock %}
+
+{% block content %}
+    <section class="container form_block">
+        <h3 class="head_input">{{ team.title }}</h3>
+        {% if team.image %}
+            <img class="brand" src="{{ team.image.url }}" alt="img" height="76" width="150" >
+        {% endif %}
+        <h5>{{ team.address }}</h5>
+        <H5 class="grey">{{ team.additionally|default_if_none:'' }}</H5>
+
+        <h4 class="danger bordo">Не забудьте, что вы можете исправить баллы не более 3 раз для каждой критерии!</h4>
+        <form action="{% url 'contests:results_team' team_id=team.id contest_id=contest.id  %}" method="post">
+            {% csrf_token %}
+            <!-- Класс для div class="table-responsive" для прозрачности "not_active" -->
+            <div class="table-responsive">
+                <table class="table point">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Критерий оценок от 1 до 5</th>
+                        <th scope="col" colspan="2">Баллы</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {{ form.management_form }}
+                        {% for field in form %}
+                            <tr>
+                                <td>{{ field.title.value }}</td>
+                                <input class="input_new_point" type="hidden" name="{{ field.title.html_name }}" value="{{ field.title.value }}">
+                                <td>
+                                    <input class="input_new_point" type="number" name="{{ field.assessment.html_name }}" value="{{ field.id.value|get_assessment:assessment}}" >
+                                    <input class="input_new_point" type="hidden" name="{{ field.user_id.html_name }}" value="{{ user.id }}" >
+                                    <input class="input_new_point" type="hidden" name="{{ field.team_id.html_name }}" value="{{ team.id }}" >
+                                    <input class="input_new_point" type="hidden" name="{{ field.contest.html_name }}" value="{{ field.contest.value }}" >
+                                    {{ field.id }}
+                                </td>
+                                {% if field.assessment.errors %}
+                                    {% for error in field.assessment.errors %}
+                                        <td class="red">{{ error|escape }}</td>
+                                    {% endfor %}
+                                {% else %}
+                                    <td class="blue">
+                                        {% if field.id.value|get_count_changes:assessment %}
+                                            Балл был изменен {{ field.id.value|get_count_changes:assessment }} раз(а)
+                                        {% endif %}
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="wrap_btn_res">
+                <button type="submit" class="btn btn-dark btn_ready">Готово</button>
+            </div>
+        </form>
+    </section>
+{% endblock content %}

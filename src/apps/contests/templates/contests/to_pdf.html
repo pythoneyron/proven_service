@@ -1,0 +1,73 @@
+{% load contests_filter %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Итоговые результаты</title>
+    <style>
+        @font-face {
+          font-family: Arial;
+          src: url("{% static 'fonts/ttf/arial.ttf' %}");
+        }
+
+        body {
+          font-family: Arial;
+          font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+{% block content %}
+    <section class="container form_block">
+        <h3 class="head_input">Итоговые результаты</h3>
+
+        <div class="table-responsive table_block_origin">
+            <table class="table table-sm table-bordered">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">
+                        <div class="num_tab">№</div>
+                    </th>
+                    <th scope="col">Команда/Вуз</th>
+                    <th scope="col">Среднее значение по критерию</th>
+                    <th colspan="{{ criteria|length }}" class="criterion_glob">
+                        <table>
+                            <tr>
+                                <th colspan="{{ criteria|length }}" class="header_th">Критерии</th>
+                            </tr>
+                            <tr id="kriterii">
+                                {% for crit in criteria %}
+                                    <th scope="col">{{ crit.title }}</th>
+                                {% endfor %}
+                            </tr>
+                        </table>
+                    </th>
+                    <th>Штрафные баллы</th>
+                    <th>Итоговый балл(по среднему значению)</th>
+                    <th>Место</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for team in teams %}
+                    <tr>
+                        <th scope="row" class="bg_transparent">{{ forloop.counter }}</th>
+                        <td><a href="#" class="link_vuz">{{ team.title }}</a></td>
+                        {% for crit in criteria %}
+                            <td>{{ team|get_average_value_by_criteria:crit }}</td>
+                        {% endfor %}
+                        <td>{{ team|get_total_penalty:contest }}</td>
+                        <td>{{ team|get_total_score_all_average_criteria:contest }}</td>
+                        <td>{{ team|get_total_score_all_average_criteria_with_penalty:contest }}</td>
+                        <td>{{ team.placetaken_set.all|get_place:contest }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+{% endblock content %}
+</body>
+</html>

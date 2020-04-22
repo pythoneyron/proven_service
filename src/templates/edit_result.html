@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/lib/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <title>Проверенный сервис</title>
+</head>
+<body>
+
+
+<!-- Навигация -->
+<nav class="navbar navbar-expand-lg navbar-light container">
+    <a class="navbar-brand logo" href="/"></a>
+    <button class="navbar-toggler" type="button" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="login.html">Мои данные</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="contests.html">Конкурсы</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="final_result.html">Итоговые результаты</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div id="menu_nav">
+    <div class="wrap_first_row">
+        <a class="logo" href="/"></a>
+        <a href="#" id="hide_menu"></a>
+    </div>
+    <div class="navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="login.html">Мои данные</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link active_link" href="contests.html">Конкурсы</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="final_result.html">Итоговые результаты</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb container">
+        <li class="breadcrumb-item"><a href="contests.html">Конкурсы</a></li>
+        <li class="breadcrumb-item"><a href="list_command.html">Команды</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Название команды</li>
+    </ol>
+</nav>
+
+<section class="container form_block">
+    <h3 class="head_input">Факультет информационных технологий</h3>
+    <h5>г. Владимир</h5>
+    <H5 class="grey">ВлГУ им. Столетовых</H5>
+
+    <!--<h4 class="danger bordo">Введите свои данные перед тем как вносить изменения!</h4>-->
+    <h4 class="danger bordo">Не забудьте, что вы можете исправить баллы только 3 раза!</h4>
+
+    <form action="#">
+
+        <!-- Класс для прозрачности таблицы not_active-->
+        <div class="table-responsive">
+            <table class="table point">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">Критерий оценок от 1 до 5</th>
+                    <th scope="col" colspan="2">Баллы</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Методика</td>
+                    <td><input class="input_new_point" type="text" value="1"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Экономика</td>
+                    <td><input class="input_new_point" type="text" value="2"></td>
+                    <td class="blue">Балл был изменен 2 раза</td>
+                </tr>
+                <tr>
+                    <td>Энергоэффективность</td>
+                    <td><input class="input_new_point" type="text" value="3"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Презентация и выступление</td>
+                    <td><input class="input_new_point" type="text" value="4"></td>
+                    <td class="red">Балл был изменен 1 раз</td>
+                </tr>
+                <tr>
+                    <td>Ответы на вопросы экспертов</td>
+                    <td><input class="input_new_point" type="text" value="5"></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="wrap_btn_res">
+            <!--<h4 class="danger bordo">Не забудьте, что вы можете исправить баллы только 3 раза!</h4>-->
+            <button type="button" class="btn btn-dark btn_ready">Готово</button>
+        </div>
+    </form>
+</section>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="js/lib/jquery-3.4.1.slim.min.js"></script>
+<script src="js/lib/popper.min.js"></script>
+<script src="js/lib/bootstrap.min.js"></script>
+<script src="js/main.min.js"></script>
+</body>
+</html>

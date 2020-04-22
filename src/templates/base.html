@@ -1,0 +1,108 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="{% static 'css/lib/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/main.css' %}">
+	<title>{% block title %}Проверенный сервис{% endblock title %}</title>
+</head>
+<body>
+
+
+<!-- Навигация -->
+<nav class="navbar navbar-expand-lg navbar-light container">
+	<a class="navbar-brand logo" href="{% url 'contests:final_results' %}"></a>
+	<button class="navbar-toggler" type="button" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarText">
+		<ul class="navbar-nav mr-auto">
+            <li class="nav-item {% if '/my_data/' in request.path %}active{% endif %}">
+                <a class="nav-link" href="{% url 'accounts:my_data' %}">Мои данные</a>
+            </li>
+			<li class="nav-item {% if '/contests/' in request.path and '/final_results/' not in request.path and '/final_results_teams/' not in request.path and '/history_changes/' not in request.path %}active{% endif %}">
+				<a class="nav-link" href="{% url 'contests:contests' %}">Конкурсы</a>
+			</li>
+			<li class="nav-item {% if '/final_results_teams/' in request.path or '/final_results/' in request.path or '/history_changes/' in request.path %}active{% endif %}">
+				<a class="nav-link" href="{% url 'contests:final_results' %}">Итоговые результаты</a>
+			</li>
+		</ul>
+	</div>
+</nav>
+<nav class="navbar navbar-expand-lg navbar-light container">
+    <div class="collapse navbar-collapse" id="navbarText">
+    {% if user.is_authenticated %}
+        {% if user.first_name and user.last_name %}
+            {{ user.get_full_name }} ({{ user.get_role_display }})
+        {% else %}
+            {{ user.phone_number }} ({{ user.get_role_display }})
+        {% endif %}
+        <a href="{% url 'accounts:logout' %}" role="button">Выйти</a>
+    {% else %}
+        <a href="{% url 'accounts:login' %}" role="button">Войти</a>
+    {% endif %}
+    </div>
+</nav>
+<!-- Путь -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb container">
+        {% block breadcrumbs %}
+            <li class="breadcrumb-item"><a href="/">Главная</a></li>
+        {% endblock %}
+    </ol>
+</nav>
+
+<div id="menu_nav">
+	<div class="wrap_first_row">
+		<a class="logo" href="/"></a>
+		<a href="#" id="hide_menu"></a>
+	</div>
+	<div class="navbar-collapse">
+		<ul class="navbar-nav mr-auto">
+            <li class="nav-item {% if '/my_data/' in request.path %}active{% endif %}">
+                <a class="nav-link" href="{% url 'accounts:my_data' %}">Мои данные</a>
+            </li>
+			<li class="nav-item {% if '/contests/' in request.path and '/final_results/' not in request.path and '/final_results_teams/' not in request.path and '/history_changes/' not in request.path %}active{% endif %}">
+				<a class="nav-link" href="{% url 'contests:contests' %}">Конкурсы</a>
+			</li>
+			<li class="nav-item {% if '/final_results_teams/' in request.path or '/final_results/' in request.path or '/history_changes/' in request.path %}active{% endif %}">
+				<a class="nav-link" href="{% url 'contests:final_results' %}">Итоговые результаты</a>
+			</li>
+			{% if user.is_authenticated %}
+				<br>
+				{% if user.first_name and user.last_name %}
+					<li class="nav-item">
+						{{ user.get_full_name }} ({{ user.get_role_display }})
+					</li>
+				{% else %}
+					<li class="nav-item">
+						{{ user.phone_number }} ({{ user.get_role_display }})
+					</li>
+				{% endif %}
+				<li class="nav-item">
+					<a class="nav-link" href="{% url 'accounts:logout' %}" role="button">Выйти</a>
+				</li>
+			{% else %}
+				<br>
+				<li class="nav-item">
+					<a class="nav-link" href="{% url 'accounts:login' %}" role="button">Войти</a>
+				</li>
+			{% endif %}
+		</ul>
+	</div>
+</div>
+
+{% block content %}
+{% endblock content %}
+
+<script src="{% static 'js/lib/jquery-3.4.1.slim.min.js' %}"></script>
+<script src="{% static 'js/lib/popper.min.js' %}"></script>
+<script src="{% static 'js/lib/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/main.min.js' %}"></script>
+</body>
+</html>

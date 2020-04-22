@@ -1,0 +1,30 @@
+{% extends 'contests/contests.html' %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+    <li class="breadcrumb-item"><a href="{% url 'contests:teams' contest.pk %}">{{ contest.title }}</a></li>
+{% endblock %}
+
+{% block content %}
+    <section class="container form_block">
+        <h3 class="head_input">Список команд в конкурсе</h3>
+        <div class="table-responsive">
+            <table class="table point">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">№</th>
+                    <th scope="col">Название команды</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for team in teams %}
+                        <tr>
+                            <td width="50px">{{ forloop.counter }}</td>
+                            <td><a href="{% url 'contests:results_team' contest_id=contest.pk team_id=team.pk  %}" class="link_fuck">{{ team.title }}</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock content %}

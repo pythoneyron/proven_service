@@ -1,0 +1,11 @@
+*.py[cod]
+src/media
+src/static
+.idea
+cache/*
+logs/*
+development.py
+config/pgdata/*
+venv/*
+config/*
+src/logs/*
